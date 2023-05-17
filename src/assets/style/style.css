@@ -1,3 +1,29 @@
 @tailwind base; 
 @tailwind components;
 @tailwind utilities;
+body{
+ @apply flex justify-center items-center min-h-screen bg-black;   
+}
+.card-box {
+    @apply relative w-[200px] h-[200px];
+    transform-style: preserve-3d;
+    animation: cardAnimate 20s linear infinite
+}
+@keyframes cardAnimate {
+    0%{
+        transform: perspective(1000px) rotateY(0deg);
+    }
+    100%{
+        transform: perspective(1000px) rotateY(360deg);
+    }
+}
+.card-box span {
+    @apply absolute top-0 left-0 w-full h-full;
+    transform-origin: center;
+    transform-style: preserve-3d;
+    transform: rotateY( calc(var(--i)*45deg) ) translateZ(400px);
+    -webkit-box-reflect: below 0px linear-gradient(transparent,transparent,#0004 );
+}
+.card-box span img {
+    @apply absolute top-0 left-0 w-full h-full object-cover;
+}

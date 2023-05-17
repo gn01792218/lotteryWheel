@@ -1,24 +1,17 @@
 <template>
-  <p class="bg-black text-white">
-    Recommended IDE setup:
-    <a href="https://code.visualstudio.com/" target="_blank">VSCode</a>
-    +
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-  </p>
-  <p>
-    <a href="https://vitejs.dev/guide/features.html" target="_blank">
-      Vite Docs
-    </a>
-    |
-    <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Docs</a>
-  </p>
-
-  <button type="button" @click="count++">count is: {{ count }}</button>
+<section class="card-box">
+  <span style="--i:1;"><img src="https://picsum.photos/id/685/200/200" alt=""></span>
+  <span style="--i:2;"><img src="https://picsum.photos/id/687/200/200" alt=""></span>
+  <span style="--i:3;"><img src="https://picsum.photos/id/67/200/200" alt=""></span>
+  <span style="--i:4;"><img src="https://picsum.photos/id/87/200/200" alt=""></span>
+  <span style="--i:5;"><img src="https://picsum.photos/id/667/200/200" alt=""></span>
+  <span style="--i:6;"><img src="https://picsum.photos/id/95/200/200" alt=""></span>
+  <span style="--i:7;"><img src="https://picsum.photos/id/25/200/200" alt=""></span>
+  <span style="--i:8;"><img src="https://picsum.photos/id/35/200/200" alt=""></span>
+</section>
 </template>
 <script setup lang="ts">
 
-defineProps<{ msg: string }>();
 
-const count = ref(0);
 
 </script>
