@@ -1,42 +1,69 @@
 <template>
   <button class="absolute top-[100px] w-[100px] h-[100px] bg-yellow-200 block" @click="lottery">抽獎</button>
   <section class="card-box">
-    <span style="--i: 1"
-      ><img src="https://picsum.photos/id/685/200/200" alt=""
-    /></span>
-    <span style="--i: 2"
-      ><img src="https://picsum.photos/id/687/200/200" alt=""
-    /></span>
-    <span style="--i: 3"
-      ><img src="https://picsum.photos/id/67/200/200" alt=""
-    /></span>
-    <span style="--i: 4"
-      ><img src="https://picsum.photos/id/87/200/200" alt=""
-    /></span>
-    <span style="--i: 5"
-      ><img src="https://picsum.photos/id/667/200/200" alt=""
-    /></span>
-    <span style="--i: 6"
-      ><img src="https://picsum.photos/id/95/200/200" alt=""
-    /></span>
-    <span style="--i: 7"
-      ><img src="https://picsum.photos/id/25/200/200" alt=""
-    /></span>
-    <span style="--i: 8"
-      ><img src="https://picsum.photos/id/35/200/200" alt=""
-    /></span>
+    <div class="card-item" v-for="( card,index) in cardList" :key="card.name" 
+    :style="`--i: ${index}; transform:rotateY( calc(var(--i)*${360/cardList.length}deg) ) translateZ(300px)`"
+      ><img :src="card.img" :alt="card.name"
+    /></div>
   </section>
 </template>
 <script setup lang="ts">
+interface CardObject {
+  name:string,
+  img:string,
+  content:string
+}
+const cardList:CardObject[] = [
+  {
+    name:"p1",
+    img:'https://picsum.photos/id/685/200/200',
+    content:'再來一次',
+  },
+  {
+    name:"p2",
+    img:'https://picsum.photos/id/65/200/200',
+    content:'通通有獎',
+  },
+  {
+    name:"p3",
+    img:'https://picsum.photos/id/85/200/200',
+    content:'紅茶一杯',
+  },
+  {
+    name:"p4",
+    img:'https://picsum.photos/id/185/200/200',
+    content:'奶茶一杯',
+  },
+  {
+    name:"p5",
+    img:'https://picsum.photos/id/67/200/200',
+    content:'烏龍茶一杯',
+  },
+  {
+    name:"p6",
+    img:'https://picsum.photos/id/68/200/200',
+    content:'普爾茶一杯',
+  },
+  {
+    name:"p7",
+    img:'https://picsum.photos/id/79/200/200',
+    content:'奶蓋茶一杯',
+  },
+  {
+    name:"p8",
+    img:'https://picsum.photos/id/80/200/200',
+    content:'金佶檸檬茶一杯',
+  },
+]
 const getCardBoxElement = ():HTMLElement=>{
   return document.querySelector(".card-box") as HTMLElement;
 }
 const getCardBoxAnimation = (element:HTMLElement): Animation => {
   return element.getAnimations()[0];
 }
-
 const lotteryInit = () => {
-  const cardBoxAnimation = getCardBoxAnimation(getCardBoxElement());
+  const cardElement = getCardBoxElement()
+  const cardBoxAnimation = getCardBoxAnimation(cardElement);
   cardBoxAnimation.pause();
 };
 

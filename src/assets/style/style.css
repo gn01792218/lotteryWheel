@@ -17,11 +17,11 @@ body{
         transform: perspective(1000px) rotateY(720deg);
     }
 }
-.card-box span {
+.card-box div {
     @apply absolute top-0 left-0 w-full h-full;
     transform-origin: center;
     transform-style: preserve-3d;
-    transform: rotateY( calc(var(--i)*45deg) ) translateZ(400px);
+    transform: translateZ(300px);
     -webkit-box-reflect: below 0px linear-gradient(transparent,transparent,#0004 );
 }
 .card-box span img {
