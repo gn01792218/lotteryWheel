@@ -28,20 +28,24 @@
   </section>
 </template>
 <script setup lang="ts">
-const getCardBoxAnimation = (): Animation => {
-  const cardBox = document.querySelector(".card-box") as HTMLElement;
-  const cardBoxAnimation = cardBox.getAnimations()[0];
-  return cardBoxAnimation;
-};
+const getCardBoxElement = ():HTMLElement=>{
+  return document.querySelector(".card-box") as HTMLElement;
+}
+const getCardBoxAnimation = (element:HTMLElement): Animation => {
+  return element.getAnimations()[0];
+}
+
 const lotteryInit = () => {
-  const cardBoxAnimation = getCardBoxAnimation();
+  const cardBoxAnimation = getCardBoxAnimation(getCardBoxElement());
   cardBoxAnimation.pause();
 };
 
 const lottery = () => {
-  const cardBoxAnimation = getCardBoxAnimation();
-  cardBoxAnimation.play();
-  console.log(getCardBoxAnimation());
+  const cardBoxAnimation = getCardBoxAnimation(getCardBoxElement());
+  cardBoxAnimation.play()
+  setTimeout(()=>{
+    cardBoxAnimation.pause()
+  },4990)
 };
 onMounted(() => {
   lotteryInit();
