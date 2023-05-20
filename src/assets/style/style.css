@@ -7,14 +7,14 @@ body{
 .card-box {
     @apply relative w-[200px] h-[200px];
     transform-style: preserve-3d;
-    transform: perspective(1000px) rotateY(0deg);
+    transform: perspective(1000px) rotateX(0deg);
 }
 .card-box div {
     @apply absolute top-0 left-0 w-full h-full;
     transform-origin: center;
     transform-style: preserve-3d;
-    transform: translateZ(300px);
-    -webkit-box-reflect: below 0px linear-gradient(transparent,transparent,#0004 );
+    transform: translateZ(1000px);
+    /* -webkit-box-reflect: below 0px linear-gradient(transparent,transparent,#0004 ); */
 }
 .card-box span img {
     @apply absolute top-0 left-0 w-full h-full object-cover;

@@ -1,9 +1,9 @@
 <template>
-  <button class="absolute top-[100px] w-[100px] h-[100px] bg-yellow-200 block" @click="lottery">抽獎</button>
+  <button class="absolute top-[100px] left-[20%] w-[100px] h-[100px] bg-yellow-200 block" @click="lottery">抽獎</button>
   <section class="card-box">
     <div class="card-item" v-for="( card,index) in cardList" :key="card.name" 
-    :style="`--i: ${index}; transform:rotateY( calc(var(--i)*${rotateDeg}deg) ) translateZ(300px)`"
-      ><img :src="card.img" :alt="card.name"
+    :style="`--i: ${index}; transform:rotateX( calc(var(--i)*${rotateDeg}deg) ) translateZ(300px)`"
+      >{{ index }}<img :src="card.img" :alt="card.name"
     /></div>
   </section>
 </template>
@@ -72,11 +72,11 @@ const getRandomAngle = ()=>{
 const lottery = () => {
   const cardBoxElement = getCardBoxElement()
   cardBoxElement.animate([
-    {transform:'perspective(1000px) rotateY(0deg);',easing:'ease-in'},
-    {transform:`perspective(1000px) rotateY(${getRandomAngle()}deg)`,easing:'ease-out'}
+    {transform:'perspective(1000px) rotateX(0deg);',easing:'ease-in'},
+    {transform:`perspective(1000px) rotateX(${getRandomAngle()}deg)`,easing:'ease-out'}
   ],{
     duration:5000,
-    fill:'forwards'
+    fill:'both'
   })
   getCardBoxAnimation(cardBoxElement).pause()
   getCardBoxAnimation(cardBoxElement).play()
