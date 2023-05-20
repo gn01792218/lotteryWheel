@@ -71,6 +71,11 @@ const getRandomAngle = ()=>{
 }
 const lottery = () => {
   const cardBoxElement = getCardBoxElement()
+  const cardBoxAnimation = getCardBoxAnimation(cardBoxElement)
+  if(cardBoxAnimation) {
+    cardBoxAnimation.cancel()
+  }
+  
   cardBoxElement.animate([
     {transform:'perspective(1000px) rotateX(0deg);',easing:'ease-in'},
     {transform:`perspective(1000px) rotateX(${getRandomAngle()}deg)`,easing:'ease-out'}
