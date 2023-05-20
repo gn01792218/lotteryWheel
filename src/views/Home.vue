@@ -6,6 +6,9 @@
       >{{ index }}<img :src="card.img" :alt="card.name"
     /></div>
   </section>
+  <div v-show="showLottery" class=" absolute bottom-0 text-white">
+    {{ cardList[lotteryItemIndex] }}
+  </div>
 </template>
 <script setup lang="ts">
 interface CardObject {
@@ -57,6 +60,8 @@ const cardList:CardObject[] = [
 ]
 const baseRotateAngle = 720
 const rotateDeg = 360/cardList.length
+const lotteryItemIndex = ref(0)
+const showLottery = ref(false)
 const getCardBoxElement = ():HTMLElement=>{
   return document.querySelector(".card-box") as HTMLElement;
 }
@@ -64,18 +69,18 @@ const getCardBoxAnimation = (element:HTMLElement): Animation => {
   return element.getAnimations()[0];
 }
 const getRandomAngle = ()=>{
-  const r = Math.floor(Math.random()*cardList.length+1)
-  let deg = r*rotateDeg
+  lotteryItemIndex.value = Math.floor(Math.random()*cardList.length+1)
+  let deg = lotteryItemIndex.value*rotateDeg
   if(rotateDeg <360) deg = baseRotateAngle+deg
   return deg
 }
-const lottery = () => {
+const lottery = async() => {
+  showLottery.value = false
   const cardBoxElement = getCardBoxElement()
   const cardBoxAnimation = getCardBoxAnimation(cardBoxElement)
   if(cardBoxAnimation) {
     cardBoxAnimation.cancel()
   }
-  
   cardBoxElement.animate([
     {transform:'perspective(1000px) rotateX(0deg);',easing:'ease-in'},
     {transform:`perspective(1000px) rotateX(${getRandomAngle()}deg)`,easing:'ease-out'}
@@ -83,7 +88,9 @@ const lottery = () => {
     duration:5000,
     fill:'both'
   })
-  getCardBoxAnimation(cardBoxElement).pause()
-  getCardBoxAnimation(cardBoxElement).play()
+
+  await getCardBoxAnimation(cardBoxElement).finished
+  showLottery.value = true
+    
 };
 </script>
