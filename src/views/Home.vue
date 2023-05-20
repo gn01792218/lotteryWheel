@@ -2,7 +2,7 @@
   <button class="absolute top-[100px] w-[100px] h-[100px] bg-yellow-200 block" @click="lottery">抽獎</button>
   <section class="card-box">
     <div class="card-item" v-for="( card,index) in cardList" :key="card.name" 
-    :style="`--i: ${index}; transform:rotateY( calc(var(--i)*${360/cardList.length}deg) ) translateZ(300px)`"
+    :style="`--i: ${index}; transform:rotateY( calc(var(--i)*${rotateDeg}deg) ) translateZ(300px)`"
       ><img :src="card.img" :alt="card.name"
     /></div>
   </section>
@@ -55,26 +55,30 @@ const cardList:CardObject[] = [
     content:'金佶檸檬茶一杯',
   },
 ]
+const baseRotateAngle = 720
+const rotateDeg = 360/cardList.length
 const getCardBoxElement = ():HTMLElement=>{
   return document.querySelector(".card-box") as HTMLElement;
 }
 const getCardBoxAnimation = (element:HTMLElement): Animation => {
   return element.getAnimations()[0];
 }
-const lotteryInit = () => {
-  const cardElement = getCardBoxElement()
-  const cardBoxAnimation = getCardBoxAnimation(cardElement);
-  cardBoxAnimation.pause();
-};
-
+const getRandomAngle = ()=>{
+  const r = Math.floor(Math.random()*cardList.length+1)
+  let deg = r*rotateDeg
+  if(rotateDeg <360) deg = baseRotateAngle+deg
+  return deg
+}
 const lottery = () => {
-  const cardBoxAnimation = getCardBoxAnimation(getCardBoxElement());
-  cardBoxAnimation.play()
-  setTimeout(()=>{
-    cardBoxAnimation.pause()
-  },4990)
+  const cardBoxElement = getCardBoxElement()
+  cardBoxElement.animate([
+    {transform:'perspective(1000px) rotateY(0deg);',easing:'ease-in'},
+    {transform:`perspective(1000px) rotateY(${getRandomAngle()}deg)`,easing:'ease-out'}
+  ],{
+    duration:5000,
+    fill:'forwards'
+  })
+  getCardBoxAnimation(cardBoxElement).pause()
+  getCardBoxAnimation(cardBoxElement).play()
 };
-onMounted(() => {
-  lotteryInit();
-});
 </script>
