@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center min-h-screen">
+  <div class="relative z-[-1] flex justify-center items-center min-h-screen">
     <section class="card-box">
       <div class="card-item" v-for="( card,index) in cardList" :key="card.name" 
       :style="`--i: ${index}; transform:rotateX( calc(var(--i)*${rotateDeg}deg) ) translateZ(${rainWidth}px)`"
@@ -7,9 +7,11 @@
         <img :src="card.img" :alt="card.name"/>
       </div>
     </section>
-  <button class="lottery-btn" @click="lottery">抽獎</button>
-  <LotteryModal v-show="showLottery" :show="showLottery" :lottery="cardList[lotteryItemIndex]" @close="showLottery = false"/>
   </div>
+  <div class="w-full flex justify-center">
+    <button class="lottery-btn" @click="lottery">抽獎</button>
+  </div>
+  <LotteryModal v-show="showLottery" :show="showLottery" :lottery="cardList[lotteryItemIndex]" @close="showLottery = false"/>
 </template>
 <script setup lang="ts">
 import LotteryModal from '@/commonComponents/LotteryModal.vue';
