@@ -3,4 +3,5 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './assets/style/style.css'
+import 'web-animations-js'
 createApp(App).use(router).use(store).mount('#app')
