@@ -1,22 +1,23 @@
 <template>
-  
-  <button class="absolute top-[100px] left-[20%] w-[100px] h-[100px] bg-yellow-200 block" @click="lottery">抽獎</button>
-  <section class="card-box">
-    <div class="card-item" v-for="( card,index) in cardList" :key="card.name" 
-    :style="`--i: ${index}; transform:rotateX( calc(var(--i)*${rotateDeg}deg) ) translateZ(300px)`"
-      >{{ index }}<img :src="card.img" :alt="card.name"
-    /></div>
-  </section>
+  <div class="flex justify-center items-center min-h-screen">
+    <section class="card-box">
+      <div class="card-item" v-for="( card,index) in cardList" :key="card.name" 
+      :style="`--i: ${index}; transform:rotateX( calc(var(--i)*${rotateDeg}deg) ) translateZ(${rainWidth}px)`"
+        >{{ index }}<img :src="card.img" :alt="card.name"
+      /></div>
+    </section>
+  <button class="absolute bottom-10 w-[100px] h-[50px] rounded-md shadow-xl animate-bounce bg-red-700 text-white block" @click="lottery">抽獎</button>
   <LotteryModal v-show="showLottery" :show="showLottery" :lottery="cardList[lotteryItemIndex]" @close="showLottery = false"/>
+  </div>
 </template>
 <script setup lang="ts">
 import LotteryModal from '@/commonComponents/LotteryModal.vue';
 import { Lottery } from '@/types/lottery'
 const cardList:Lottery[] = [
-  {
+{
     name:"p1",
-    img:'https://picsum.photos/id/685/200/200',
-    content:'再來一次',
+    img:'https://picsum.photos/id/65/200/200',
+    content:'通通有獎',
   },
   {
     name:"p2",
@@ -53,23 +54,76 @@ const cardList:Lottery[] = [
     img:'https://picsum.photos/id/80/200/200',
     content:'金佶檸檬茶一杯',
   },
+  {
+    name:"p9",
+    img:'https://picsum.photos/id/68/200/200',
+    content:'普爾茶一杯',
+  },
+  {
+    name:"p10",
+    img:'https://picsum.photos/id/79/200/200',
+    content:'奶蓋茶一杯',
+  },
+  {
+    name:"p11",
+    img:'https://picsum.photos/id/68/200/200',
+    content:'普爾茶一杯',
+  },
+  {
+    name:"p12",
+    img:'https://picsum.photos/id/79/200/200',
+    content:'奶蓋茶一杯',
+  },
+  {
+    name:"p13",
+    img:'https://picsum.photos/id/80/200/200',
+    content:'金佶檸檬茶一杯',
+  },
+  {
+    name:"p14",
+    img:'https://picsum.photos/id/68/200/200',
+    content:'普爾茶一杯',
+  },
+  {
+    name:"p15",
+    img:'https://picsum.photos/id/79/200/200',
+    content:'奶蓋茶一杯',
+  },
 ]
 const baseRotateAngle = 720
 const rotateDeg = 360/cardList.length
+const mobileRainWidth = ref(250)
+const desktopRainWidth = ref(400)
+const rainWidth = ref(mobileRainWidth.value)
+
 const lotteryItemIndex = ref(0)
 const showLottery = ref(false)
+
+const mqlMin768 = window.matchMedia("(min-width :768px)")
+const initCardBoxRainSize = ()=>{
+  if(mqlMin768.matches) rainWidth.value = desktopRainWidth.value
+}
+const addCardBoxResponsive = ()=>{
+  mqlMin768.addEventListener('change',()=>{
+    if(mqlMin768.matches && rainWidth.value !== desktopRainWidth.value) rainWidth.value = desktopRainWidth.value
+    else rainWidth.value = mobileRainWidth.value
+  })
+}
+
 const getCardBoxElement = ():HTMLElement=>{
   return document.querySelector(".card-box") as HTMLElement;
 }
 const getCardBoxAnimation = (element:HTMLElement): Animation => {
   return element.getAnimations()[0];
 }
+
 const getRandomAngle = ()=>{
   lotteryItemIndex.value = Math.floor(Math.random()*cardList.length+1)
   let deg = lotteryItemIndex.value*rotateDeg
   if(rotateDeg <360) deg = baseRotateAngle+deg
   return deg
 }
+
 const lottery = async() => {
   showLottery.value = false
   const cardBoxElement = getCardBoxElement()
@@ -89,4 +143,9 @@ const lottery = async() => {
   showLottery.value = true
     
 };
+
+onMounted(()=>{
+  initCardBoxRainSize()
+  addCardBoxResponsive()
+})
 </script>
