@@ -1,4 +1,5 @@
 <template>
+  <LotteryModal/>
   <button class="absolute top-[100px] left-[20%] w-[100px] h-[100px] bg-yellow-200 block" @click="lottery">抽獎</button>
   <section class="card-box">
     <div class="card-item" v-for="( card,index) in cardList" :key="card.name" 
@@ -11,6 +12,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import LotteryModal from '@/commonComponents/LotteryModal.vue';
 interface CardObject {
   name:string,
   img:string,

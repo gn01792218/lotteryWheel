@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Header: typeof import('./commonComponents/Header.vue')['default']
+    LotteryModal: typeof import('./commonComponents/LotteryModal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
