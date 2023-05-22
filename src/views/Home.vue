@@ -7,7 +7,7 @@
         <img :src="card.img" :alt="card.name"/>
       </div>
     </section>
-  <button class="absolute bottom-10 w-[100px] h-[50px] rounded-md shadow-xl animate-bounce bg-red-700 text-white block" @click="lottery">抽獎</button>
+  <button class="z-1 absolute bottom-10 w-[100px] h-[50px] rounded-md shadow-xl animate-bounce bg-red-700 text-white block" @click="lottery">抽獎</button>
   <LotteryModal v-show="showLottery" :show="showLottery" :lottery="cardList[lotteryItemIndex]" @close="showLottery = false"/>
   </div>
 </template>
