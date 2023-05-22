@@ -3,19 +3,23 @@
 @tailwind utilities;
 body{
  @apply bg-black;   
+ transform-style: flat;
 }
 .card-box {
-    @apply w-[100px] h-[100px] md:w-[150px] md:h-[150px];
+    @apply relative z-[-1] w-[100px] h-[100px] md:w-[150px] md:h-[150px];
     transform-style: preserve-3d;
     transform: perspective(1000px) rotateX(0deg);
 }
 .card-box div {
-    @apply absolute top-0 left-0 w-full h-full;
+    @apply absolute z-[-1] top-0 left-0 w-full h-full;
     transform-origin: center;
-    transform-style: preserve-3d;
+    /* transform-style: preserve-3d; */
     transform: translateZ(1000px);
     -webkit-box-reflect: below 0px linear-gradient(transparent,transparent,#0004 );
 }
 .card-box span img {
     @apply absolute top-0 left-0 w-full h-full object-cover;
+}
+.lottery-btn{
+    @apply absolute z-[1] bottom-10 w-[100px] h-[50px] rounded-md shadow-xl animate-bounce bg-red-700 text-white block;
 }
