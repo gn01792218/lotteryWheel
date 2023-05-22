@@ -134,10 +134,11 @@ const lottery = async() => {
   }
   cardBoxElement.animate([
     {transform:'perspective(1000px) rotateX(0deg);',easing:'ease-in'},
-    {transform:`perspective(1000px) rotateX(${getRandomAngle()}deg)`,easing:'ease-out'}
+    {transform:`perspective(1000px) rotateX(${getRandomAngle()}deg)`}
   ],{
     duration:5000,
-    fill:'both'
+    fill:'both',
+    easing:'ease-out'
   })
 
   await getCardBoxAnimation(cardBoxElement).finished
