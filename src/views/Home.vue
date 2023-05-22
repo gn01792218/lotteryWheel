@@ -3,8 +3,9 @@
     <section class="card-box">
       <div class="card-item" v-for="( card,index) in cardList" :key="card.name" 
       :style="`--i: ${index}; transform:rotateX( calc(var(--i)*${rotateDeg}deg) ) translateZ(${rainWidth}px)`"
-        >{{ index }}<img :src="card.img" :alt="card.name"
-      /></div>
+        >
+        <img :src="card.img" :alt="card.name"/>
+      </div>
     </section>
   <button class="absolute bottom-10 w-[100px] h-[50px] rounded-md shadow-xl animate-bounce bg-red-700 text-white block" @click="lottery">抽獎</button>
   <LotteryModal v-show="showLottery" :show="showLottery" :lottery="cardList[lotteryItemIndex]" @close="showLottery = false"/>
@@ -119,7 +120,7 @@ const getCardBoxAnimation = (element:HTMLElement): Animation => {
 
 const getRandomAngle = ()=>{
   lotteryItemIndex.value = Math.floor(Math.random()*cardList.length)
-  let deg = lotteryItemIndex.value*rotateDeg
+  let deg = (lotteryItemIndex.value+1)*rotateDeg
   if(rotateDeg <360) deg = baseRotateAngle+deg
   return deg
 }
