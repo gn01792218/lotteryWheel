@@ -118,7 +118,7 @@ const getCardBoxAnimation = (element:HTMLElement): Animation => {
 }
 
 const getRandomAngle = ()=>{
-  lotteryItemIndex.value = Math.floor(Math.random()*cardList.length+1)
+  lotteryItemIndex.value = Math.floor(Math.random()*cardList.length)
   let deg = lotteryItemIndex.value*rotateDeg
   if(rotateDeg <360) deg = baseRotateAngle+deg
   return deg
@@ -141,7 +141,6 @@ const lottery = async() => {
 
   await getCardBoxAnimation(cardBoxElement).finished
   showLottery.value = true
-    
 };
 
 onMounted(()=>{
