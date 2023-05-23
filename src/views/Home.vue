@@ -145,7 +145,7 @@ const lottery = async() => {
 
   await getCardBoxAnimation(cardBoxElement).finished
   showLottery.value = true
-};
+}
 
 onMounted(()=>{
   initCardBoxRainSize()

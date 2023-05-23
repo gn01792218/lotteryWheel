@@ -73,6 +73,7 @@
             <button
               type="button"
               class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+              @click="goToUrl('https://www.w3schools.com/')"
             >
               前往領獎
             </button>
@@ -97,5 +98,8 @@ defineProps<{
   lottery: Lottery;
 }>();
 const emit = defineEmits(["close"]);
+const goToUrl = (url:string) => {
+  window.open(url)
+}
 </script>
   
