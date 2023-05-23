@@ -21,5 +21,5 @@ body{
     @apply absolute top-0 left-0 w-full h-full object-cover;
 }
 .lottery-btn{
-    @apply absolute transform translate-x-[-50%]  bottom-10 w-[100px] h-[50px] rounded-md shadow-xl animate-bounce bg-red-700 text-white block;
+    @apply absolute transform translate-x-[-50%]  bottom-10 w-[100px] h-[50px] animate-bounce rounded-md shadow-xl bg-red-700 text-white block disabled:bg-slate-500;
 }

@@ -9,7 +9,7 @@
     </section>
   </div>
   <div class="w-full flex justify-center">
-    <button class="lottery-btn" @click="lottery">抽獎</button>
+    <button class="lottery-btn" @click="lottery" v-show="showLotteryBtn">抽獎</button>
   </div>
   <LotteryModal v-show="showLottery" :show="showLottery" :lottery="cardList[lotteryItemIndex]" @close="showLottery = false"/>
 </template>
@@ -101,6 +101,7 @@ const rainWidth = ref(mobileRainWidth.value)
 
 const lotteryItemIndex = ref(0)
 const showLottery = ref(false)
+const showLotteryBtn = ref(true)
 
 const mqlMin768 = window.matchMedia("(min-width :768px)")
 const initCardBoxRainSize = ()=>{
@@ -129,6 +130,7 @@ const getRandomAngle = ()=>{
 
 const lottery = async() => {
   showLottery.value = false
+  showLotteryBtn.value = false  
   const cardBoxElement = getCardBoxElement()
   const cardBoxAnimation = getCardBoxAnimation(cardBoxElement)
   if(cardBoxAnimation) {
@@ -145,6 +147,7 @@ const lottery = async() => {
 
   await getCardBoxAnimation(cardBoxElement).finished
   showLottery.value = true
+  showLotteryBtn.value = true
 }
 
 onMounted(()=>{
