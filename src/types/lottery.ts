@@ -1,5 +1,6 @@
 export interface Lottery {
-  name: string;
+  id:number,
   img: string;
-  content: string;
+  url:string,
+  name: string;
 }

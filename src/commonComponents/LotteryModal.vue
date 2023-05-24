@@ -64,7 +64,7 @@
                   恭喜抽中
                 </h3>
                 <div class="mt-2">
-                  <p class="text-sm text-gray-500">{{ lottery }}</p>
+                  <p class="text-sm text-gray-500">{{ lottery.name }}</p>
                 </div>
               </div>
             </div>

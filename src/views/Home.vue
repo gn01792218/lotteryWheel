@@ -25,79 +25,94 @@ onMounted(()=>{
  */
 const cardList:Lottery[] = [
 {
+  id:1,
     name:"p1",
     img:'https://picsum.photos/id/65/200/200',
-    content:'通通有獎',
+    url:""
   },
   {
+    id:2,
     name:"p2",
     img:'https://picsum.photos/id/65/200/200',
-    content:'通通有獎',
+  url:""
   },
   {
+    id:3,
     name:"p3",
     img:'https://picsum.photos/id/85/200/200',
-    content:'紅茶一杯',
+  url:"",
   },
   {
+    id:4,
     name:"p4",
     img:'https://picsum.photos/id/185/200/200',
-    content:'奶茶一杯',
+  url:""
   },
   {
+    id:5,
     name:"p5",
     img:'https://picsum.photos/id/67/200/200',
-    content:'烏龍茶一杯',
+  url:""
   },
   {
+    id:6,
     name:"p6",
     img:'https://picsum.photos/id/68/200/200',
-    content:'普爾茶一杯',
+  url:""
   },
   {
+    id:7,
     name:"p7",
     img:'https://picsum.photos/id/79/200/200',
-    content:'奶蓋茶一杯',
+  url:""
   },
   {
+    id:8,
     name:"p8",
     img:'https://picsum.photos/id/80/200/200',
-    content:'金佶檸檬茶一杯',
+  url:""
   },
   {
+    id:9,
     name:"p9",
     img:'https://picsum.photos/id/68/200/200',
-    content:'普爾茶一杯',
+  url:""
   },
   {
+    id:10,
     name:"p10",
     img:'https://picsum.photos/id/79/200/200',
-    content:'奶蓋茶一杯',
+  url:""
   },
   {
+    id:11,
     name:"p11",
     img:'https://picsum.photos/id/68/200/200',
-    content:'普爾茶一杯',
+    url:""
   },
   {
+    id:12,
     name:"p12",
     img:'https://picsum.photos/id/79/200/200',
-    content:'奶蓋茶一杯',
+    url:""
   },
   {
+    id:13,
     name:"p13",
     img:'https://picsum.photos/id/80/200/200',
-    content:'金佶檸檬茶一杯',
+    url:""
   },
   {
+    id:14,
     name:"p14",
     img:'https://picsum.photos/id/68/200/200',
-    content:'普爾茶一杯',
+  url:""
   },
   {
+    id:15,
     name:"p15",
     img:'https://picsum.photos/id/79/200/200',
-    content:'奶蓋茶一杯',
+  url:""
   },
 ]
 const lotteryItemIndex = ref(0) //抽中的獎項index
