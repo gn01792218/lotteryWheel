@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosRequestConfig,AxiosInstance } from 'axios';
+import axios, { AxiosResponse, InternalAxiosRequestConfig,AxiosInstance } from 'axios';
 
 // axios實例
 const service:AxiosInstance = axios.create({
@@ -9,7 +9,7 @@ const service:AxiosInstance = axios.create({
 
 // 请求攔截
 service.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {
     return config;
   },
   (err: any) => {
