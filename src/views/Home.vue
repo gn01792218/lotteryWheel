@@ -1,5 +1,5 @@
 <template>
-  <div class="relative z-[-1] flex justify-center items-center min-h-screen">
+  <section class="relative z-[-1] flex justify-center items-center min-h-screen">
     <section class="card-box">
       <div class="card-item" v-for="( card,index) in cardList" :key="card.name" 
       :style="`--i: ${index}; transform:rotateX( calc(var(--i)*${rotateDeg}deg) ) translateZ(${rainWidth}px)`"
@@ -7,15 +7,22 @@
         <img :src="card.img" :alt="card.name"/>
       </div>
     </section>
-  </div>
-  <div class="w-full flex justify-center">
+  </section>
+  <section class="w-full flex justify-center">
     <button class="lottery-btn" @click="lottery" v-show="showLotteryBtn">抽獎</button>
-  </div>
+  </section>
   <LotteryModal v-show="showLottery" :show="showLottery" :lottery="cardList[lotteryItemIndex]" @close="showLottery = false"/>
 </template>
 <script setup lang="ts">
 import LotteryModal from '@/commonComponents/LotteryModal.vue';
 import { Lottery } from '@/types/lottery'
+onMounted(()=>{
+  initCardBoxRainSize()
+  addCardBoxResponsive()
+})
+/**
+ * lottery控制
+ */
 const cardList:Lottery[] = [
 {
     name:"p1",
@@ -93,27 +100,7 @@ const cardList:Lottery[] = [
     content:'奶蓋茶一杯',
   },
 ]
-const baseRotateAngle = 720
-const rotateDeg = 360/cardList.length
-const mobileRainWidth = ref(250)
-const desktopRainWidth = ref(400)
-const rainWidth = ref(mobileRainWidth.value)
-
-const lotteryItemIndex = ref(0)
-const showLottery = ref(false)
-const showLotteryBtn = ref(true)
-
-const mqlMin768 = window.matchMedia("(min-width :768px)")
-const initCardBoxRainSize = ()=>{
-  if(mqlMin768.matches) rainWidth.value = desktopRainWidth.value
-}
-const addCardBoxResponsive = ()=>{
-  mqlMin768.addEventListener('change',()=>{
-    if(mqlMin768.matches && rainWidth.value !== desktopRainWidth.value) rainWidth.value = desktopRainWidth.value
-    else rainWidth.value = mobileRainWidth.value
-  })
-}
-
+const lotteryItemIndex = ref(0) //抽中的獎項index
 const getCardBoxElement = ():HTMLElement=>{
   return document.querySelector(".card-box") as HTMLElement;
 }
@@ -150,8 +137,33 @@ const lottery = async() => {
   showLotteryBtn.value = true
 }
 
-onMounted(()=>{
-  initCardBoxRainSize()
-  addCardBoxResponsive()
-})
+/**
+ * 基本變數調整
+ */
+const baseRotateAngle = 720
+const rotateDeg = 360/cardList.length
+const mobileRainWidth = ref(250)
+const desktopRainWidth = ref(400)
+const rainWidth = ref(mobileRainWidth.value)
+
+/**
+ * 畫面顯示控制
+ */
+const showLottery = ref(false)
+const showLotteryBtn = ref(true)
+
+
+/**
+ * RWD控制
+ */
+const mqlMin768 = window.matchMedia("(min-width :768px)")
+const initCardBoxRainSize = ()=>{
+  if(mqlMin768.matches) rainWidth.value = desktopRainWidth.value
+}
+const addCardBoxResponsive = ()=>{
+  mqlMin768.addEventListener('change',()=>{
+    if(mqlMin768.matches && rainWidth.value !== desktopRainWidth.value) rainWidth.value = desktopRainWidth.value
+    else rainWidth.value = mobileRainWidth.value
+  })
+}
 </script>
