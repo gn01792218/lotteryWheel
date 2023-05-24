@@ -5,7 +5,7 @@
     <section class="card-box">
       <div
         class="card-item"
-        v-for="(card, index) in cardList"
+        v-for="(card, index) in lotteryList"
         :key="card.name"
         :style="`--i: ${index}; transform:rotateX( calc(var(--i)*${rotateDeg}deg) ) translateZ(${rainWidth}px)`"
       >
@@ -21,7 +21,7 @@
   <LotteryModal
     v-show="showLottery"
     :show="showLottery"
-    :lottery="cardList[winlotteryIndex]"
+    :lottery="lotteryList[winlotteryIndex]"
     @close="showLottery = false"
   />
 </template>
@@ -40,7 +40,7 @@ onMounted(() => {
 /**
  * lottery控制
  */
-let cardList = ref<Lottery[]>([
+let lotteryList = ref<Lottery[]>([
   {
     id: 1,
     name: "p1",
@@ -140,7 +140,7 @@ const getCardBoxAnimation = (element: HTMLElement): Animation => {
   return element.getAnimations()[0];
 };
 const setRandomWinLotteryIndex = ()=>{ //前端自己random用
-  winlotteryIndex.value = Math.floor(Math.random() * cardList.value.length);
+  winlotteryIndex.value = Math.floor(Math.random() * lotteryList.value.length);
 }
 const getLotteryAngle = (winLotteryIndex:number) => {
   let deg = (winLotteryIndex+1) * rotateDeg.value;
@@ -179,7 +179,7 @@ const lottery = async () => {
  * 基本變數調整
  */
 const baseRotateAngle = 720;
-const rotateDeg = computed(()=>360 / cardList.value.length);
+const rotateDeg = computed(()=>360 / lotteryList.value.length);
 const mobileRainWidth = ref(250);
 const desktopRainWidth = ref(400);
 const rainWidth = ref(mobileRainWidth.value);
@@ -210,7 +210,7 @@ const addCardBoxResponsive = () => {
  */
 async function getLotteryList() {
   const res = await getLotteryItems();
-  cardList.value = res?.data;
+  lotteryList.value = res?.data;
 }
 async function setwinLotteryIndex(){
   return new Promise(async(resolve,reject)=>{
