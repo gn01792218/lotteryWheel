@@ -5,21 +5,32 @@ body{
  @apply bg-black;   
  transform-style: flat;
 }
-.card-box {
-    @apply relative z-[-1] w-[100px] h-[100px] md:w-[150px] md:h-[150px];
-    transform-style: preserve-3d;
-    transform: perspective(1000px) rotateX(0deg);
+.lottery-wheel-container{
+    @apply relative w-[400px] h-[400px] flex justify-center items-center;
 }
-.card-box div {
-    @apply absolute top-0 left-0 w-full h-full;
-    transform-origin: center;
-    transform-style: preserve-3d;
-    transform: translateZ(1000px);
-    -webkit-box-reflect: below 0px linear-gradient(transparent,transparent,#0004 );
+.lottery-wheel{
+    @apply absolute top-0 left-0 w-full h-full bg-[#333] rounded-full overflow-hidden;
+    box-shadow: 0 0 0 5px #333,
+    0 0 0 15px #fff,
+    0 0 0 18px #111;
 }
-.card-box span img {
-    @apply absolute top-0 left-0 w-full h-full object-cover;
+.lottery-item{
+    @apply absolute w-1/2 h-1/2 flex justify-center items-center select-none cursor-pointer;
+    background: var(--color);
+    transform: rotate( calc(45deg * var(--i)));
+    transform-origin: bottom right;
+    clip-path: polygon(0 0, 56% 0, 100% 100%, 0 56%);
+}
+.lottery-item span {
+    @apply relative;
+    /* 字體要垂直使用45deg；要水平使用135deg */
+    transform: rotate(135deg); 
+    text-shadow: 3px 5px 2px rgba(0,0,0,0.15);
 }
 .lottery-btn{
-    @apply absolute transform translate-x-[-50%]  bottom-10 w-[100px] h-[50px] animate-bounce rounded-md shadow-xl bg-red-700 text-white block disabled:bg-slate-500;
+    @apply absolute z-[10] w-[60px] h-[60px] bg-red-900 rounded-full flex justify-center items-center cursor-pointer border-4 border-red-900 select-none;
+}
+.lottery-btn:before{
+    @apply content-[""] absolute top-[-30px] w-[20px] h-[30px] bg-red-900;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }

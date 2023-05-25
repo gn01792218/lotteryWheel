@@ -1,23 +1,29 @@
 <template>
   <section
-    class="relative z-[-1] flex justify-center items-center min-h-screen"
+    class="flex justify-center items-center min-h-screen"
   >
-    <section class="card-box">
+    <section class="lottery-wheel-container">
+      <div class="lottery-btn"></div>
       <div
-        class="card-item"
-        v-for="(card, index) in lotteryList"
-        :key="card.name"
-        :style="`--i: ${index}; transform:rotateX( calc(var(--i)*${rotateDeg}deg) ) translateZ(${rainWidth}px)`"
+        class="lottery-wheel"
       >
-        <img :src="card.img" :alt="card.name" />
+      <!-- #F8CC42  #000000-->
+      <div class="lottery-item"
+        v-for="(lottery, index) in lotteryList"
+        :key="lottery.name"
+        
+        :style="`--i: ${index};--color:${index%2===0?'#F8CC42':'#F6FADF'}`"
+      >
+        <span>{{ lottery.name }}</span>
+      </div>  
       </div>
     </section>
   </section>
-  <section class="w-full flex justify-center">
+  <!-- <section class="w-full flex justify-center">
     <button class="lottery-btn" @click="lottery" v-show="showLotteryBtn">
       抽獎
     </button>
-  </section>
+  </section> -->
   <LotteryModal
     v-show="showLottery"
     :show="showLottery"
