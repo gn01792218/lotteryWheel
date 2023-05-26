@@ -1,6 +1,7 @@
 export interface Lottery {
   id:number,
-  img: string;
+  img: string,
   url:string,
-  name: string;
+  name: string,
+  // deg:number
 }

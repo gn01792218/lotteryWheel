@@ -9,7 +9,7 @@ body{
     @apply relative w-[400px] h-[400px] flex justify-center items-center;
 }
 .lottery-wheel{
-    @apply absolute top-0 left-0 w-full h-full bg-[#333] rounded-full overflow-hidden;
+    @apply absolute top-0 left-0 w-full h-full bg-[#333] rounded-full overflow-hidden transition-transform duration-[3000ms] ease-in-out;
     box-shadow: 0 0 0 5px #333,
     0 0 0 15px #fff,
     0 0 0 18px #111;
@@ -17,9 +17,7 @@ body{
 .lottery-item{
     @apply absolute w-1/2 h-1/2 flex justify-center items-center select-none cursor-pointer;
     background: var(--color);
-    transform: rotate( calc(45deg * var(--i)));
     transform-origin: bottom right;
-    clip-path: polygon(0 0, 56% 0, 100% 100%, 0 56%);
 }
 .lottery-item span {
     @apply relative;

@@ -3,27 +3,39 @@
     class="flex justify-center items-center min-h-screen"
   >
     <section class="lottery-wheel-container">
-      <div class="lottery-btn"></div>
+      <div class="lottery-btn" @click="lottery"></div>
       <div
+        v-if="lotteryList.length"
         class="lottery-wheel"
       >
-      <!-- #F8CC42  #000000-->
+       <!-- 
+        transform 用來控制扇形起始的度數
+        應+上一個人的度數
+        -->
+        <!-- 
+          100/45 => 20/9
+          67.5d = 50% ; d = 50/67.5%
+          0度的時候做標是(0,100%)
+          22.5 (0,50%)
+          30 (0,13.5%)
+          45度的時候做標是(0,0)
+          67.5 (50%,0)
+          90度的座標是(100%,0)
+         -->
       <div class="lottery-item"
         v-for="(lottery, index) in lotteryList"
         :key="lottery.name"
-        
-        :style="`--i: ${index};--color:${index%2===0?'#F8CC42':'#F6FADF'}`"
+        :style="`--winLotteryIndex: ${index};
+        --color:${index%2===0?'#F8CC42':'#F6FADF'};
+        transform: rotate( calc(${360/lotteryList.length}deg * var(--winLotteryIndex)));
+        clip-path: polygon(0 0, 0 ${360/lotteryList.length}%, 100% 100%, ${360/lotteryList.length}% 0);`"
       >
         <span>{{ lottery.name }}</span>
       </div>  
       </div>
+      <p class="text-white">目前沒有和獎項</p>
     </section>
   </section>
-  <!-- <section class="w-full flex justify-center">
-    <button class="lottery-btn" @click="lottery" v-show="showLotteryBtn">
-      抽獎
-    </button>
-  </section> -->
   <LotteryModal
     v-show="showLottery"
     :show="showLottery"
@@ -36,7 +48,7 @@ import LotteryModal from "@/commonComponents/LotteryModal.vue";
 import { Lottery } from "@/types/lottery";
 import { getLotteryItems, getLotteryWinner } from "@/api";
 
-getLotteryList();
+setLotteryList();
 
 onMounted(() => {
   initCardBoxRainSize();
@@ -46,6 +58,12 @@ onMounted(() => {
 /**
  * lottery控制
  */
+// 所有獎項的度數+起來必須要是360度
+// 每個的deg最大只能接受90度
+// 最少必須有4個獎項?
+
+//如何判斷轉到哪個獎項?
+//例如第一獎的範圍即為
 let lotteryList = ref<Lottery[]>([
   {
     id: 1,
@@ -95,90 +113,68 @@ let lotteryList = ref<Lottery[]>([
     img: "https://picsum.photos/id/80/200/200",
     url: "",
   },
-  {
-    id: 9,
-    name: "p9",
-    img: "https://picsum.photos/id/68/200/200",
-    url: "",
-  },
-  {
-    id: 10,
-    name: "p10",
-    img: "https://picsum.photos/id/79/200/200",
-    url: "",
-  },
-  {
-    id: 11,
-    name: "p11",
-    img: "https://picsum.photos/id/68/200/200",
-    url: "",
-  },
-  {
-    id: 12,
-    name: "p12",
-    img: "https://picsum.photos/id/79/200/200",
-    url: "",
-  },
-  {
-    id: 13,
-    name: "p13",
-    img: "https://picsum.photos/id/80/200/200",
-    url: "",
-  },
-  {
-    id: 14,
-    name: "p14",
-    img: "https://picsum.photos/id/68/200/200",
-    url: "",
-  },
-  {
-    id: 15,
-    name: "p15",
-    img: "https://picsum.photos/id/79/200/200",
-    url: "",
-  },
+  // {
+  //   id: 9,
+  //   name: "p9",
+  //   img: "https://picsum.photos/id/68/200/200",
+  //   url: "",
+  // },
+  // {
+  //   id: 10,
+  //   name: "p10",
+  //   img: "https://picsum.photos/id/79/200/200",
+  //   url: "",
+  // },
+  // {
+  //   id: 11,
+  //   name: "p11",
+  //   img: "https://picsum.photos/id/68/200/200",
+  //   url: "",
+  // },
+  // {
+  //   id: 12,
+  //   name: "p12",
+  //   img: "https://picsum.photos/id/79/200/200",
+  //   url: "",
+  // },
+  // {
+  //   id: 13,
+  //   name: "p13",
+  //   img: "https://picsum.photos/id/80/200/200",
+  //   url: "",
+  // },
+  // {
+  //   id: 14,
+  //   name: "p14",
+  //   img: "https://picsum.photos/id/68/200/200",
+  //   url: "",
+  // },
+  // {
+  //   id: 15,
+  //   name: "p15",
+  //   img: "https://picsum.photos/id/79/200/200",
+  //   url: "",
+  // },
 ]);
-const winlotteryIndex = ref(0); //抽中的獎項index,根據資料來源index可能不同
-const getCardBoxElement = (): HTMLElement => {
-  return document.querySelector(".card-box") as HTMLElement;
-};
-const getCardBoxAnimation = (element: HTMLElement): Animation => {
-  return element.getAnimations()[0];
-};
+const winlotteryIndex = ref(0) //抽中的獎項index,根據資料來源index可能不同
+const lastRotateAngle = ref(0)
 const setRandomWinLotteryIndex = ()=>{ //前端自己random用
   winlotteryIndex.value = Math.floor(Math.random() * lotteryList.value.length);
 }
-const getLotteryAngle = (winLotteryIndex:number) => {
-  let deg = (winLotteryIndex+1) * rotateDeg.value;
-  if (rotateDeg.value < 360) deg = baseRotateAngle + deg;
-  return deg;
+const setLotteryAngle = (winLotteryIndex:number) => {
+  console.log('轉到',winLotteryIndex,'所以要轉到第',winLotteryIndex,'個index的角度')
+  let deg = (rotateDeg.value*winLotteryIndex + baseRotateAngle)
+  lastRotateAngle.value+=deg
 };
 
 const lottery = async () => {
   await setwinLotteryIndex()
-  // setRandomWinLotteryIndex()
-  showLottery.value = false;
-  showLotteryBtn.value = false;
-  const cardBoxElement = getCardBoxElement();
-  const cardBoxAnimation = getCardBoxAnimation(cardBoxElement);
-  if (cardBoxAnimation) {
-    cardBoxAnimation.cancel();
-  }
-  cardBoxElement.animate(
-    [
-      { transform: "perspective(1000px) rotateX(0deg);", easing: "ease-in" },
-      { transform: `perspective(1000px) rotateX(${getLotteryAngle(winlotteryIndex.value)}deg)` },
-    ],
-    {
-      duration: 5000,
-      fill: "both",
-      easing: "ease-out",
-    }
-  );
-
-  await getCardBoxAnimation(cardBoxElement).finished;
-  showLottery.value = true;
-  showLotteryBtn.value = true;
+  const wheel = document.querySelector('.lottery-wheel') as HTMLElement
+  setLotteryAngle(winlotteryIndex.value)
+  wheel.style.transform = `rotate(${lastRotateAngle.value}deg)`
+  setTimeout(()=>{
+    showLottery.value = true;
+  },3000)
 };
 
 /**
@@ -194,7 +190,6 @@ const rainWidth = ref(mobileRainWidth.value);
  * 畫面顯示控制
  */
 const showLottery = ref(false);
-const showLotteryBtn = ref(true);
 
 /**
  * RWD控制
@@ -214,7 +209,7 @@ const addCardBoxResponsive = () => {
 /**
  * API
  */
-async function getLotteryList() {
+async function setLotteryList() {
   const res = await getLotteryItems();
   lotteryList.value = res?.data;
 }
