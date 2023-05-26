@@ -27,7 +27,7 @@
         :key="lottery.name"
         :style="`--winLotteryIndex: ${index};
         --color:${index%2===0?'#F8CC42':'#F6FADF'};
-        transform: rotate( calc(${360/lotteryList.length}deg * var(--winLotteryIndex)));
+        transform: rotate( calc(${360/lotteryList.length}deg* var(--winLotteryIndex)));
         clip-path: polygon(0 0, 0 ${360/lotteryList.length}%, 100% 100%, ${360/lotteryList.length}% 0);`"
       >
         <span>{{ lottery.name }}</span>
@@ -48,7 +48,7 @@ import LotteryModal from "@/commonComponents/LotteryModal.vue";
 import { Lottery } from "@/types/lottery";
 import { getLotteryItems, getLotteryWinner } from "@/api";
 
-setLotteryList();
+// setLotteryList();
 
 onMounted(() => {
   initCardBoxRainSize();
@@ -113,65 +113,69 @@ let lotteryList = ref<Lottery[]>([
     img: "https://picsum.photos/id/80/200/200",
     url: "",
   },
-  // {
-  //   id: 9,
-  //   name: "p9",
-  //   img: "https://picsum.photos/id/68/200/200",
-  //   url: "",
-  // },
-  // {
-  //   id: 10,
-  //   name: "p10",
-  //   img: "https://picsum.photos/id/79/200/200",
-  //   url: "",
-  // },
-  // {
-  //   id: 11,
-  //   name: "p11",
-  //   img: "https://picsum.photos/id/68/200/200",
-  //   url: "",
-  // },
-  // {
-  //   id: 12,
-  //   name: "p12",
-  //   img: "https://picsum.photos/id/79/200/200",
-  //   url: "",
-  // },
-  // {
-  //   id: 13,
-  //   name: "p13",
-  //   img: "https://picsum.photos/id/80/200/200",
-  //   url: "",
-  // },
-  // {
-  //   id: 14,
-  //   name: "p14",
-  //   img: "https://picsum.photos/id/68/200/200",
-  //   url: "",
-  // },
-  // {
-  //   id: 15,
-  //   name: "p15",
-  //   img: "https://picsum.photos/id/79/200/200",
-  //   url: "",
-  // },
+  {
+    id: 9,
+    name: "p9",
+    img: "https://picsum.photos/id/68/200/200",
+    url: "",
+  },
+  {
+    id: 10,
+    name: "p10",
+    img: "https://picsum.photos/id/79/200/200",
+    url: "",
+  },
+  {
+    id: 11,
+    name: "p11",
+    img: "https://picsum.photos/id/68/200/200",
+    url: "",
+  },
+  {
+    id: 12,
+    name: "p12",
+    img: "https://picsum.photos/id/79/200/200",
+    url: "",
+  },
+  {
+    id: 13,
+    name: "p13",
+    img: "https://picsum.photos/id/80/200/200",
+    url: "",
+  },
+  {
+    id: 14,
+    name: "p14",
+    img: "https://picsum.photos/id/68/200/200",
+    url: "",
+  },
+  {
+    id: 15,
+    name: "p15",
+    img: "https://picsum.photos/id/79/200/200",
+    url: "",
+  },
 ]);
 const winlotteryIndex = ref(0) //抽中的獎項index,根據資料來源index可能不同
-const lastRotateAngle = ref(0)
+const accumulationRotateAngle = ref(0)
 const setRandomWinLotteryIndex = ()=>{ //前端自己random用
   winlotteryIndex.value = Math.floor(Math.random() * lotteryList.value.length);
 }
 const setLotteryAngle = (winLotteryIndex:number) => {
   console.log('轉到',winLotteryIndex,'所以要轉到第',winLotteryIndex,'個index的角度')
-  let deg = (rotateDeg.value*winLotteryIndex + baseRotateAngle)
-  lastRotateAngle.value+=deg
+  let deg = (rotateDeg.value*winLotteryIndex+baseRotateAngle)
+  accumulationRotateAngle.value+=deg
+  console.log('增加度數',deg,'累積度數',accumulationRotateAngle.value)
 };
-
+const initWheel = ()=>{
+  const wheel = document.querySelector('.lottery-wheel') as HTMLElement
+  wheel.style.transform = `rotate(45deg)`
+}
 const lottery = async () => {
   await setwinLotteryIndex()
-  const wheel = document.querySelector('.lottery-wheel') as HTMLElement
   setLotteryAngle(winlotteryIndex.value)
-  wheel.style.transform = `rotate(${lastRotateAngle.value}deg)`
+  const wheel = document.querySelector('.lottery-wheel') as HTMLElement
+  wheel.style.transform = `rotate(${accumulationRotateAngle.value}deg)`
   setTimeout(()=>{
     showLottery.value = true;
   },3000)
@@ -220,4 +224,7 @@ async function setwinLotteryIndex(){
     resolve("")
   })
 }
+onMounted(()=>{
+initWheel()
+})
 </script>
