@@ -27,8 +27,8 @@
         :key="lottery.name"
         :style="`--winLotteryIndex: ${index};
         --color:${index%2===0?'#F8CC42':'#F6FADF'};
-        transform: rotate( calc(${360/lotteryList.length}deg* var(--winLotteryIndex)));
-        clip-path: polygon(0 0, 0 ${360/lotteryList.length}%, 100% 100%, ${360/lotteryList.length}% 0);`"
+        transform: rotate( calc(${rotateDeg}deg* var(--winLotteryIndex)));
+        clip-path: polygon(0 0, 0 ${rotateDeg}%, 100% 100%, ${360/lotteryList.length}% 0);`"
       >
         <span>{{ lottery.name }}</span>
       </div>  
@@ -157,15 +157,12 @@ let lotteryList = ref<Lottery[]>([
   },
 ]);
 const winlotteryIndex = ref(0) //抽中的獎項index,根據資料來源index可能不同
-const accumulationRotateAngle = ref(0)
 const setRandomWinLotteryIndex = ()=>{ //前端自己random用
   winlotteryIndex.value = Math.floor(Math.random() * lotteryList.value.length);
 }
-const setLotteryAngle = (winLotteryIndex:number) => {
-  console.log('轉到',winLotteryIndex,'所以要轉到第',winLotteryIndex,'個index的角度')
-  let deg = (rotateDeg.value*winLotteryIndex+baseRotateAngle)
-  accumulationRotateAngle.value+=deg
-  console.log('增加度數',deg,'累積度數',accumulationRotateAngle.value)
+const getLotteryAngle = () => {
+  let deg = -(rotateDeg.value*winlotteryIndex.value-45)
+  return deg
 };
 const initWheel = ()=>{
   const wheel = document.querySelector('.lottery-wheel') as HTMLElement
@@ -173,9 +170,9 @@ const initWheel = ()=>{
 }
 const lottery = async () => {
   await setwinLotteryIndex()
-  setLotteryAngle(winlotteryIndex.value)
+  getLotteryAngle()
   const wheel = document.querySelector('.lottery-wheel') as HTMLElement
-  wheel.style.transform = `rotate(${accumulationRotateAngle.value}deg)`
+  wheel.style.transform = `rotate(${getLotteryAngle()}deg)`
   setTimeout(()=>{
     showLottery.value = true;
   },3000)
